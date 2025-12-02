@@ -1,0 +1,122 @@
+/*“Chaves, Colchetes e Parênteses”
+Você deve verificar se uma expressão está correta considerando 3 tipos de símbolos:
+()
+[]
+{}
+A expressão é correta se:
+Todo símbolo de abertura tem um símbolo de fechamento correspondente.
+Símbolos são fechados na ordem correta (ou seja, LIFO → pilha).
+
+Exemplo:
+Entrada:
+3
+({[]})
+([)]
+([]{})
+
+Saída:
+correct
+incorrect
+correct*/
+
+#include <stdio.h>
+#include <string.h>
+
+struct Node {
+
+char value;
+Node *next;
+
+Node(char _value) {
+    value = _value;
+    next = NULL;
+}
+
+Node() {
+    next = NULL;
+}
+
+};
+
+struct Stack {
+
+Node *t;
+
+Stack() {
+    t = NULL;
+}
+
+bool empty() {
+    return t == NULL;
+}
+
+void push(char value) {
+    Node *n = new Node(value);
+    n->next = t;
+    t = n;
+}
+
+void pop() {
+    if (empty()) return;
+    Node *aux = t;
+    t = t->next;
+    delete(aux);
+}
+
+char top() {
+    return t->value;
+}
+
+};
+
+bool isMatching(char a, char b) {
+return (a == '(' && b == ')') ||
+(a == '[' && b == ']') ||
+(a == '{' && b == '}');
+}
+
+int main() {
+
+char p[10010];
+
+while (scanf("%s", p) != EOF) {
+
+    Stack s;
+    int ok = 1;
+
+    for (int i = 0; i < strlen(p); i++) {
+
+        char c = p[i];
+
+        if (c == '(' || c == '[' || c == '{') {
+            s.push(c);
+        }
+
+        else if (c == ')' || c == ']' || c == '}') {
+
+            if (s.empty()) {
+                ok = 0;
+                break;
+            }
+
+            if (!isMatching(s.top(), c)) {
+                ok = 0;
+                break;
+            }
+
+            s.pop();
+        }
+
+    }
+
+    if (!s.empty()) ok = 0;
+
+    if (ok)
+        printf("correct\n");
+    else
+        printf("incorrect\n");
+}
+
+return 0;
+
+}
