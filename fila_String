@@ -1,3 +1,22 @@
+/*“Fila do Apelido”
+Na sua escola, durante a hora do lanche, os alunos fazem fila para receber suco.
+Porém, o monitor decidiu que a ordem da fila não será pela ordem de chegada, mas sim pela ordem alfabética dos apelidos dos alunos.
+Você receberá:
+
+A ordem de chegada dos alunos, através de seus apelidos (strings).
+Deve ordenar a fila alfabeticamente.
+E descobrir quantos alunos continuariam na mesma posição mesmo após a reordenação.
+
+Entrada
+Um inteiro N indicando o número de casos de teste.
+Para cada caso:
+Um inteiro M
+M strings representando os apelidos em ordem de chegada
+
+Saída
+Para cada caso, imprimir quantos alunos não mudariam de posição.*/
+
+
 #include <stdio.h>
 #include <string>
 #include <iostream>
