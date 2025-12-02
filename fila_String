@@ -1,0 +1,144 @@
+#include <stdio.h>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+struct Node {
+
+    string value;
+    Node *next;
+
+    Node(string _value) {
+        value = _value;
+        next = NULL;
+    }
+
+    Node() {
+        next = NULL;
+    }
+
+};
+
+struct Queue {
+
+    Node *start;
+    Node *end;
+
+    Queue() {
+        start = NULL;
+        end = NULL;
+    }
+
+    bool empty() {
+        return start == NULL;
+    }
+
+    void enqueue(string value) {
+
+        Node *n = new Node(value);
+
+        if (empty()) {
+            start = n;
+            end = n;
+            return;
+        }
+
+        end->next = n;
+        end = n;
+
+    }
+
+    void enqueueOrdered(string value) {
+
+        Node *n = new Node(value);
+
+        if (empty()) {
+            start = n;
+            end = n;
+            return;
+        }
+
+        // Inserir no INÍCIO se o valor vem antes alfabeticamente
+        if (value.compare(start->value) <= 0) {
+            n->next = start;
+            start = n;
+            return;
+        }
+
+        // Inserir no FIM se vem alfabeticamente depois do último
+        if (value.compare(end->value) >= 0) {
+            end->next = n;
+            end = n;
+            return;
+        }
+
+        // Inserção no meio
+        Node *aux = start;
+
+        while (aux->next->value.compare(value) < 0) {
+            aux = aux->next;
+        }
+
+        n->next = aux->next;
+        aux->next = n;
+
+    }
+
+    void dequeue() {
+
+        if (empty()) return;
+
+        if (start == end) {
+            delete(start);
+            start = NULL;
+            end = NULL;
+            return;
+        }
+
+        Node *aux = start;
+        start = start->next;
+        delete(aux);
+
+    }
+
+    string front() {
+        return start->value;
+    }
+
+};
+
+int main() {
+
+    int n;
+    cin >> n;
+
+    while (n--) {
+
+        int m;
+        cin >> m;
+
+        Queue q, qo;
+
+        for (int i = 0; i < m; i++) {
+            string s;
+            cin >> s;
+            q.enqueue(s);
+            qo.enqueueOrdered(s);
+        }
+
+        int c = 0;
+
+        while (!q.empty()) {
+            if (q.front() == qo.front()) {
+                c++;
+            }
+            q.dequeue();
+            qo.dequeue();
+        }
+
+        cout << c << endl;
+    }
+
+    return 0;
+}
